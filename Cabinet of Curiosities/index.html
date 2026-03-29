@@ -83,10 +83,10 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.6);
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
+      background: rgba(0,0,0,0.88);
+      z-index: 2000;
+      overflow-y: auto; /* ← FIX: allows scrolling if content too tall */
+      padding: 20px;
     }
 
     .paywall-content {
@@ -170,7 +170,7 @@
       },
       onApprove: function(data, actions) {
         return actions.order.capture().then(function(details) {
-          localStorage.setItem('grainQuizPaid', 'true');
+          localStorage.setItem('StoriesPaid', 'true');
           alert('Payment successful! Redirecting to Stories.');
           window.location.href = 'Story.html';
         });
