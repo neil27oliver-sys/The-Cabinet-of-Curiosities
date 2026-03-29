@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Neil Oliver –  Cabinet of Curiosities Stories</title>
+
+  <style>
+    :root {
+      --gold:     #d7cba3;       /* main accent / gold monogram feel */
+      --dark-bg:  #dacfba;       /* deep warm black-brown */
+      --card:     #513b0c;       /* slightly lighter for cards */
+      --text:     #f5e8c0;       /* warm off-white / parchment */
+      --muted:    #b89a5f;       /* aged gold-brown */
+      --border:   #8b6f47;       /* wood/candle wax tone */
+      --red-warm: #8b4513;       /* subtle red from armchair */
+    }
+
+    body {
+      background: var(--dark-bg);
+      color: var(--text);
+      font-family: 'Georgia', 'Times New Roman', serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: linear-gradient(to bottom, #1a0f00, #0f0a00);
+      padding: 2rem 1rem 1.5rem;
+      text-align: center;
+      border-bottom: 3px solid var(--gold);
+      position: relative;
+    }
+
+    .back-btn-container {
+      position: absolute;
+      top: 1.2rem;
+      left: 1.5rem;
+    }
+
+    .back-btn {
+      padding: 0.8rem 1.6rem;
+      background: var(--gold);
+      color: #111;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 50px;
+      font-size: 1.05rem;
+      transition: all 0.25s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    }
+
+    .back-btn:hover {
+      background: #e6c567;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(212,175,55,0.4);
+    }
+
+    h1 {
+      color: var(--gold);
+      margin: 0;
+      font-size: 2.6rem;
+      letter-spacing: 1px;
+      text-shadow: 0 3px 10px rgba(0,0,0,0.7);
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin: 0.6rem 0 0;
+      font-style: italic;
+      font-size: 1.15rem;
+    }
+
+    main {
+      flex: 1;
+      max-width: 1000px;
+      margin: 2.5rem auto 1rem;
+      padding: 0 1.5rem;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      font-weight: bold;
+      font-size: 1.15rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    }
+
+    .btn-selection { background: var(--gold); color: #111; }
+    .btn-random    { background: var(--red-warm); color: white; }
+    .btn-all       { background: #6b4e31; color: white; }
+
+    .btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 10px 25px rgba(212,175,55,0.35);
+    }
+
+    .status {
+      text-align: center;
+      color: var(--muted);
+      margin: 1rem 0 2rem;
+      font-size: 1.05rem;
+      font-style: italic;
+    }
+
+    .track-list {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .track {
+      background: var(--card);
+      padding: 1.2rem 1.5rem;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      transition: all 0.25s;
+      border-left: 4px solid transparent;
+    }
+
+    .track:hover {
+      background: #2a1a00;
+      transform: translateX(6px);
+    }
+
+    .track-playing {
+      border-left: 6px solid var(--gold);
+      background: #332200;
+    }
+
+    .track-label {
+      flex: 1;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .track-title {
+      font-weight: bold;
+      color: var(--text);
+      font-size: 1.1rem;
+    }
+
+    input[type="checkbox"] {
+      width: 22px;
+      height: 22px;
+      accent-color: var(--gold);
+      cursor: pointer;
+    }
+
+    .player {
+      position: sticky;
+      bottom: 0;
+      background: rgba(15,10,0,0.92);
+      padding: 1.2rem;
+      border-top: 3px solid var(--gold);
+      text-align: center;
+      box-shadow: 0 -6px 20px rgba(0,0,0,0.8);
+    }
+
+    audio {
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto 0.8rem;
+      display: block;
+    }
+
+    #nowPlaying {
+      margin: 0.4rem 0 0;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.1rem; }
+      .controls { gap: 1rem; }
+      .btn { padding: 0.9rem 1.6rem; font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="back-btn-container">
+    <a href="index.html" class="back-btn">← Back to Home</a>
+  </div>
+
+  <h1>Cabinet of Curiosities Stories</h1>
+  <p class="subtitle">Original Tracks – Select favorites, play in order, or shuffle</p>
+</header>
+
+<main>
+  <div class="controls">
+    <button class="btn btn-selection" onclick="playSelection()">Play Selection</button>
+    <button class="btn btn-random" onclick="playRandom()">Play Random (Selected)</button>
+    <button class="btn btn-all" onclick="playAllRandom()">Play All / Shuffle</button>
+  </div>
+
+  <p class="status" id="status">Select tracks and choose a mode above</p>
+
+  <div class="track-list" id="trackList">
+    <!-- Populated by JS -->
+  </div>
+</main>
+
+<div class="player">
+  <audio id="audioPlayer" controls></audio>
+  <p id="nowPlaying">Select tracks and start playback</p>
+</div>
+
+<script>
+  const tracks = [
+    { title: "Story 1 Why Are Coins Round", src: "assets/Story 1_ Why Are Coins Round_.mp3" },
+    { title: "Story 2 The Mackintosh Raincoat", src: "assets/Story 2_ The Mackintosh Raincoat.mp3" },
+    { title: "Story 3 Where Does the Pencil Come From", src: "assets/Story 3_Where Does the Pencil Come From_.mp3" },
+    { title: "Story 4 The Story of Jeans (Blue Jeans)", src: "assets/Story 4_The Story of Jeans (Blue Jeans).mp3" },
+    { title: "Story 5 Who Invented Ice Cream", src: "assets/Story 5_Who Invented Ice Cream_.mp3" },
+    { title: "Story 6 The Amazing Journey of Paper", src: "assets/Story 6_The Amazing Journey of Paper.mp3" },
+    { title: "Story 7 The Surprise Story of Chocolate", src: "assets/Story 7_The Surprise Story of Chocolate.mp3" },
+    { title: "Story 8 Why Do We Have Umbrellas", src: "assets/Story 8_Why Do We Have Umbrellas_.mp3" },
+    { title: "Story 9 The Secret Life of the Toothbrush ", src: "assets/Story 9_The Secret Life of the Toothbrush.mp3" },
+    { title: "Story 10 Where Did Bubblegum Come From ", src: "assets/Story 10_Where Did Bubblegum Come From_.mp3" },
+   
+    
+   
+
+
+
+
+
+    // Add remaining tracks here if more exist
+  ];
+
+  const audio = document.getElementById('audioPlayer');
+  const nowPlaying = document.getElementById('nowPlaying');
+  const status = document.getElementById('status');
+  const trackList = document.getElementById('trackList');
+
+  let currentIndex = -1;
+  let playbackMode = 'none';
+
+  // Build track list
+  tracks.forEach((track, index) => {
+    const div = document.createElement('div');
+    div.className = 'track';
+    div.innerHTML = `
+      <input type="checkbox" id="track-${index}" />
+      <label for="track-${index}" class="track-label">
+        <div class="track-title">${track.title}</div>
+      </label>
+    `;
+    trackList.appendChild(div);
+  });
+
+  function getSelectedIndices() {
+    return Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
+      .map(cb => parseInt(cb.id.split('-')[1]));
+  }
+
+  function playTrack(index) {
+    if (index < 0 || index >= tracks.length) return;
+    currentIndex = index;
+    audio.src = tracks[index].src;
+    audio.play().catch(e => console.log("Play failed:", e));
+    nowPlaying.textContent = `Now playing: ${tracks[index].title}`;
+    document.querySelectorAll('.track').forEach(t => t.classList.remove('track-playing'));
+    if (trackList.children[index]) trackList.children[index].classList.add('track-playing');
+  }
+
+  function playSelection() {
+    const selected = getSelectedIndices();
+    if (selected.length === 0) return status.textContent = "Select at least one track first";
+    playbackMode = 'selection';
+    status.textContent = "Playing your selection in order";
+    playTrack(selected[0]);
+  }
+
+  function playRandom() {
+    const selected = getSelectedIndices();
+    if (selected.length === 0) return status.textContent = "Select at least one track first";
+    playbackMode = 'random-selected';
+    status.textContent = "Shuffling from your selection";
+    const randomIdx = selected[Math.floor(Math.random() * selected.length)];
+    playTrack(randomIdx);
+  }
+
+  function playAllRandom() {
+    playbackMode = 'all-random';
+    status.textContent = "Shuffling the full collection";
+    const randomIdx = Math.floor(Math.random() * tracks.length);
+    playTrack(randomIdx);
+  }
+
+  audio.addEventListener('ended', () => {
+    if (playbackMode === 'none') return;
+
+    let nextIndex;
+    if (playbackMode === 'selection') {
+      const selected = getSelectedIndices();
+      const pos = selected.indexOf(currentIndex);
+      nextIndex = pos < selected.length - 1 ? selected[pos + 1] : selected[0];
+    } else {
+      const pool = playbackMode === 'random-selected' ? getSelectedIndices() : tracks.map((_,i)=>i);
+      if (pool.length === 0) return;
+      nextIndex = pool[Math.floor(Math.random() * pool.length)];
+    }
+    playTrack(nextIndex);
+  });
+
+  // Pause when tab is hidden
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) audio.pause();
+  });
+</script>
+
+</body>
+</html>
