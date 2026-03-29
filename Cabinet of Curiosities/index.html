@@ -89,7 +89,7 @@
       overflow-y: auto; /* ← FIX: allows scrolling if content too tall */
       padding: 20px;
     }
-
+  
     .paywall-content {
       background: white;
       padding: 40px;
@@ -129,6 +129,7 @@
   <!-- Paywall Modal -->
   <div id="paywall-modal">
     <div class="paywall-content">
+
       <h2>Unlock Stories – $3</h2>
       <p>One-time payment • Full access  • No subscription</p>
       <p style="font-size:0.9rem; color:#777; margin:1.2rem 0;">
@@ -175,6 +176,18 @@
           alert('Payment successful! Redirecting to Stories.');
           window.location.href = 'Story.html';
         });
+     // 4. Music Button Logic
+    document.getElementById('music-btn').addEventListener('click', function() {
+      if (localStorage.getItem(Stories_PAID_KEY) === 'true') {
+        window.location.href = 'Story.html';
+      } else {
+        document.getElementById('paywall-modal').style.display = 'flex';
+      }
+    });
+
+    document.getElementById('close-modal').addEventListener('click', function() {
+      document.getElementById('paywall-modal').style.display = 'none';
+    });
       },
       onError: function(err) {
         console.error('PayPal error:', err);
