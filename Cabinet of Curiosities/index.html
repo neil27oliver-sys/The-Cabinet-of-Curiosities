@@ -123,14 +123,14 @@
   </div>
 
   <div class="btn-container">
-    <button id="start-btn">Stories – Unlock for $3 </button>
+    <button id="start-btn">Stories – Unlock for $6 </button>
   </div>
 
   <!-- Paywall Modal -->
   <div id="paywall-modal">
     <div class="paywall-content">
 
-      <h2>Unlock Stories – $3</h2>
+      <h2>Unlock Stories – $6</h2>
       <p>One-time payment • Full access  • No subscription</p>
       <p style="font-size:0.9rem; color:#777; margin:1.2rem 0;">
        
@@ -168,7 +168,7 @@
     paypal.Buttons({
       createOrder: function(data, actions) {
         return actions.order.create({
-          purchase_units: [{ amount: { value: '3.00' } }],
+          purchase_units: [{ amount: { value: '6.00' } }],
           application_context: { shipping_preference: "NO_SHIPPING" }
         });
       },
