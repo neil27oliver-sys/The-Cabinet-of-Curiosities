@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title> Cabinet of Curiosities</title>
-  <link rel="icon" type="image/jpg" href="assets/flavicon.jpg">
+  <link rel="icon" type="image/jpg" href="assets/flavicon1.jpg">
   <!-- PayPal SDK -->
   <script src="https://www.paypal.com/sdk/js?client-id=AWMjw-JB6E8nFkjToPpNNJkpPk9lxnp1I8IF13-djVLcOQ2daRj2k8tCM4jEHkjm_C8mPpnyO1Wj_rF4&currency=USD&components=buttons,hosted-fields&disable-funding=venmo,credit"></script>
 
@@ -110,7 +110,7 @@
       "Inspired by James Burke’s Connections, the stories are perfect for bedtime read-alouds" 
     </div>
     
-    <img src="assets/Chest.jpg" alt="Brain Potential" class="header-img">
+    <img src="assets/CabinetSora.jpg" alt="Brain Potential" class="header-img">
 
     <p style="text-align: center; font-weight: bold;">
       Join 10-year-old Curio as she opens glowing drawers in a magical antique cabinet and tumbles through time on wonderful adventures!
@@ -123,14 +123,14 @@
   </div>
 
   <div class="btn-container">
-    <button id="start-btn">Stories – Unlock for $15 </button>
+    <button id="start-btn">Stories – Unlock for $27 </button>
   </div>
 
   <!-- Paywall Modal -->
   <div id="paywall-modal">
     <div class="paywall-content">
 
-      <h2>Unlock Stories – $15</h2>
+      <h2>Unlock Stories – $27</h2>
       <p>One-time payment • Full access  • No subscription</p>
       <p style="font-size:0.9rem; color:#777; margin:1.2rem 0;">
        
@@ -168,7 +168,7 @@
     paypal.Buttons({
       createOrder: function(data, actions) {
         return actions.order.create({
-          purchase_units: [{ amount: { value: '15.00' } }],
+          purchase_units: [{ amount: { value: '27.00' } }],
           application_context: { shipping_preference: "NO_SHIPPING" }
         });
       },
